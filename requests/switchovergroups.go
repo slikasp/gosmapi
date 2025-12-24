@@ -1,6 +1,6 @@
 package requests
 
-type proxies struct {
+type switchovergroups struct {
 	Data []struct {
 		ID    string `json:"id"`
 		Type  string `json:"type"`
@@ -8,18 +8,15 @@ type proxies struct {
 			Self string `json:"self"`
 		} `json:"links"`
 		Attributes struct {
-			Status          string `json:"status"`
-			Type            string `json:"type"`
-			Address         string `json:"address"`
-			SoftwareVersion string `json:"softwareVersion"`
+			Name string `json:"name"`
 		} `json:"attributes"`
 		Relationships struct {
-			AssignedSubServers struct {
+			Jobs struct {
 				Links struct {
 					Self    string `json:"self"`
 					Related string `json:"related"`
 				} `json:"links"`
-			} `json:"assignedSubServers"`
+			} `json:"jobs"`
 		} `json:"relationships"`
 	} `json:"data"`
 	Links struct {
