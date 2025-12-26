@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+
+	. "github.com/pauslik/gosmapi/internal/config"
 )
 
+// This struct has parts of the response json that fits to every endpoint
 // add variables in order to test other values
 type APIResponse[T any] struct {
 	Links struct {
@@ -14,14 +17,32 @@ type APIResponse[T any] struct {
 	Data []T
 }
 
-func getTester[T any](t *testing.T, endpoint string) {
+// TODO: remake the cofig so the variables are taken from config file
+var testConfig Config
+
+func init() {
+	user := SMuser{
+		Name:     "admin",
+		Token:    "qIKgyRASxdrSPEhqW36VDGffINp5b4",
+		UserRole: "admin",
+	}
+	core := SMserver{
+		Address:    "10.10.113.3",
+		ServerRole: "core",
+	}
+	testConfig = Config{
+		User: user,
+		Core: core,
+	}
+}
+
+func getTester[T any](t *testing.T, coreAddress string, endpoint string) {
 	t.Helper()
 
-	// TODO: pass server IP via *config
-	link := fmt.Sprintf("http://%s/api/%s", "10.10.113.3", endpoint)
+	link := fmt.Sprintf("http://%s/api/%s", coreAddress, endpoint)
 	body, _ := getRequestBody(link)
 	var response APIResponse[T]
-	response, _ = parse(response, body)
+	response, _ = parseGetResponse(response, body)
 	if strings.Compare(response.Links.Self, link) != 0 {
 		t.Errorf("Bad request response:\n  >expected %v\n  >got: %v", link, response.Links.Self)
 		t.Fail()
@@ -50,20 +71,20 @@ func getTester[T any](t *testing.T, endpoint string) {
 // }
 
 func TestGetJobs(t *testing.T) {
-	getTester[jobs](t, "jobs")
+	getTester[jobs](t, testConfig.Core.Address, "jobs")
 }
 func TestGetPrincipalmaps(t *testing.T) {
-	getTester[principalmaps](t, "principalmaps")
+	getTester[principalmaps](t, testConfig.Core.Address, "principalmaps")
 }
 func TestGetServers(t *testing.T) {
-	getTester[servers](t, "servers")
+	getTester[servers](t, testConfig.Core.Address, "servers")
 }
 func TestGetProxies(t *testing.T) {
-	getTester[proxies](t, "proxies")
+	getTester[proxies](t, testConfig.Core.Address, "proxies")
 }
 func TestGetSubservers(t *testing.T) {
-	getTester[subservers](t, "subservers")
+	getTester[subservers](t, testConfig.Core.Address, "subservers")
 }
 func TestGetSwitchovergroups(t *testing.T) {
-	getTester[switchovergroups](t, "switchovergroups")
+	getTester[switchovergroups](t, testConfig.Core.Address, "switchovergroups")
 }

@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// TODO: add *config input
 func getRequestBody(link string) ([]byte, error) {
 	client := http.DefaultClient
 	body := make([]byte, 0)

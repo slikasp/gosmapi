@@ -19,8 +19,9 @@ import (
 }
 
 // this returns something only for queued jobs (not actually queued for migration, but for creation of the job, e.g. prechecks)
-createjobstatuses:Status of a job creation.
+createjobstatuses: Status of a job creation.
 
+// TODO: add filter options, filter here or use the API functionality?
 jobs: Job, for example, a migration.
 
 principalmaps: An uploaded principal map.
@@ -38,7 +39,7 @@ The data access is configured on sub-server level in StorageMAP.
 switchovergroups: Switchover group reference
 */
 
-func parse[T any](variable T, reqBody []byte) (T, error) {
+func parseGetResponse[T any](variable T, reqBody []byte) (T, error) {
 	err := json.Unmarshal(reqBody, &variable)
 	return variable, err
 }
