@@ -9,7 +9,7 @@ import (
 )
 
 // This struct has parts of the response json that fits to every endpoint
-// add variables in order to test other values
+// add variables in correct structure to test be able to test other values
 type APIResponse[T any] struct {
 	Links struct {
 		Self string
@@ -21,28 +21,21 @@ type APIResponse[T any] struct {
 var testConfig Config
 
 func init() {
-	user := SMuser{
-		Name:     "admin",
-		Token:    "qIKgyRASxdrSPEhqW36VDGffINp5b4",
-		UserRole: "admin",
-	}
-	core := SMserver{
-		Address:    "10.10.113.3",
-		ServerRole: "core",
-	}
-	testConfig = Config{
-		User: user,
-		Core: core,
-	}
+	testConfig.SetAdmin("admin", "qIKgyRASxdrSPEhqW36VDGffINp5b4")
+	testConfig.SetCore("10.10.113.3")
+	testConfig.NewClient(10)
 }
 
-func getTester[T any](t *testing.T, coreAddress string, endpoint string) {
+// TODO: handle errors coming from requests and parsers
+func getTester[T any](t *testing.T, cfg *Config, endpoint string) {
 	t.Helper()
 
-	link := fmt.Sprintf("http://%s/api/%s", coreAddress, endpoint)
-	body, _ := getRequestBody(link)
+	link := fmt.Sprintf("http://%s/api/%s", cfg.Core.Address, endpoint)
+	body, _ := getRequest(cfg, link)
+
 	var response APIResponse[T]
-	response, _ = parseGetResponse(response, body)
+	response, _ = parseResponse(response, body)
+
 	if strings.Compare(response.Links.Self, link) != 0 {
 		t.Errorf("Bad request response:\n  >expected %v\n  >got: %v", link, response.Links.Self)
 		t.Fail()
@@ -53,38 +46,21 @@ func getTester[T any](t *testing.T, coreAddress string, endpoint string) {
 	}
 }
 
-// func TestGetJobsOld(t *testing.T) {
-// 	t.Log()
-// 	// TODO: pass server IP via *config
-// 	link := fmt.Sprintf("http://%s/api/servers", "10.10.113.3")
-// 	body, _ := getRequestBody(link)
-// 	jobs := jobs{}
-// 	jobs, _ = parse(jobs, body)
-// 	if strings.Compare(jobs.Links.Self, link) != 0 {
-// 		t.Errorf("Bad request response:\n  >expected %v\n  >got: %v", link, jobs.Links.Self)
-// 		t.Fail()
-// 	}
-// 	if len(jobs.Data) == 0 {
-// 		t.Errorf("No jobs returned/configured")
-// 		t.Fail()
-// 	}
-// }
-
 func TestGetJobs(t *testing.T) {
-	getTester[jobs](t, testConfig.Core.Address, "jobs")
+	getTester[jobs](t, &testConfig, "jobs")
 }
 func TestGetPrincipalmaps(t *testing.T) {
-	getTester[principalmaps](t, testConfig.Core.Address, "principalmaps")
+	getTester[principalmaps](t, &testConfig, "principalmaps")
 }
 func TestGetServers(t *testing.T) {
-	getTester[servers](t, testConfig.Core.Address, "servers")
+	getTester[servers](t, &testConfig, "servers")
 }
 func TestGetProxies(t *testing.T) {
-	getTester[proxies](t, testConfig.Core.Address, "proxies")
+	getTester[proxies](t, &testConfig, "proxies")
 }
 func TestGetSubservers(t *testing.T) {
-	getTester[subservers](t, testConfig.Core.Address, "subservers")
+	getTester[subservers](t, &testConfig, "subservers")
 }
 func TestGetSwitchovergroups(t *testing.T) {
-	getTester[switchovergroups](t, testConfig.Core.Address, "switchovergroups")
+	getTester[switchovergroups](t, &testConfig, "switchovergroups")
 }

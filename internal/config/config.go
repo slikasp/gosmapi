@@ -1,5 +1,10 @@
 package config
 
+import (
+	"net/http"
+	"time"
+)
+
 // user type enums
 type userRole string
 
@@ -30,23 +35,28 @@ type SMserver struct {
 
 // config to be passed around in functions, user.token and core.address used in making http requests
 type Config struct {
-	User SMuser
-	Core SMserver
+	User       SMuser
+	Core       SMserver
+	HttpClient *http.Client
 }
 
-func (c *Config) SetAdmin(name, token string) Config {
+func (c *Config) SetAdmin(name, token string) {
 	c.User = SMuser{
 		Name:     name,
 		Token:    token,
 		UserRole: ADMIN,
 	}
-	return *c
 }
 
-func (c *Config) SetCore(address string) Config {
+func (c *Config) SetCore(address string) {
 	c.Core = SMserver{
 		Address:    address,
 		ServerRole: CORE,
 	}
-	return *c
+}
+
+func (c *Config) NewClient(timeoutSeconds int) {
+	c.HttpClient = &http.Client{
+		Timeout: time.Duration(timeoutSeconds) * time.Second,
+	}
 }

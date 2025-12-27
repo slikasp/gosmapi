@@ -39,7 +39,7 @@ The data access is configured on sub-server level in StorageMAP.
 switchovergroups: Switchover group reference
 */
 
-func parseGetResponse[T any](variable T, reqBody []byte) (T, error) {
+func parseResponse[T any](variable T, reqBody []byte) (T, error) {
 	err := json.Unmarshal(reqBody, &variable)
 	return variable, err
 }
