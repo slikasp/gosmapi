@@ -50,6 +50,7 @@ func postRequest[T any](cfg *Config, link string, data T) ([]byte, error) {
 	if err != nil {
 		return body, err
 	}
+
 	// make the request
 	req, err := http.NewRequest("POST", link, bytes.NewReader(jsonData))
 	if err != nil {

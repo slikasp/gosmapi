@@ -27,10 +27,10 @@ func init() {
 }
 
 // TODO: handle errors coming from requests and parsers
-func getTester[T any](t *testing.T, cfg *Config, endpoint string) {
+func getTester[T any](t *testing.T, cfg *Config, path string) {
 	t.Helper()
 
-	link := fmt.Sprintf("http://%s/api/%s", cfg.Core.Address, endpoint)
+	link := fmt.Sprintf("http://%s/api/%s", cfg.Core.Address, path)
 	body, _ := getRequest(cfg, link)
 
 	var response APIResponse[T]
@@ -52,9 +52,18 @@ func TestGetJobs(t *testing.T) {
 func TestGetPrincipalmaps(t *testing.T) {
 	getTester[principalmaps](t, &testConfig, "principalmaps")
 }
+
 func TestGetServers(t *testing.T) {
-	getTester[servers](t, &testConfig, "servers")
+	t.Log()
+
+	response, _ := GetServers(&testConfig)
+
+	if len(response.Data) == 0 {
+		t.Errorf("No items returned/configured")
+		t.Fail()
+	}
 }
+
 func TestGetProxies(t *testing.T) {
 	getTester[proxies](t, &testConfig, "proxies")
 }
