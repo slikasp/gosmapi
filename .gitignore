@@ -1,1 +1,13 @@
-README.md
+tests/
+tests/.env
+feedback.txt
+
+examples/
+
+#remove these once done, should be in order
+subservers.go
+proxies.go
+jobs.go
+createjobstatuses.go
+switchovergroups.go
+principalmaps.go
