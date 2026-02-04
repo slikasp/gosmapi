@@ -1,11 +1,10 @@
-tests/
+# tests/
 tests/.env
 feedback.txt
 
 examples/
 
-#remove these once done, should be in order
-subservers.go
+#remove these when working on them, should go in order
 proxies.go
 jobs.go
 createjobstatuses.go
