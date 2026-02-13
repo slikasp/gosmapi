@@ -28,7 +28,6 @@ API for job management was introduced in version 5.13.0 of StorageMAP (DobiMigra
 ### Create a new client
 
 `smapi := Client.New("<core_address>", "<admin_token>")`
-
 This creates a client with all relevant connection details, you can create multiple clients if you have multiple core servers or multiple API users (authorisation is not yet available, only use admin user)
 
 ### api/servers functions (v0.1)
@@ -36,14 +35,16 @@ This creates a client with all relevant connection details, you can create multi
 #### GET
 
 - `smapi.FileServers()`
-Get details of one File Server, including subservers
-- `smapi.FileServer(serverID)`
 Get all File Servers
+
+- `smapi.FileServer(serverID)`
+Get details of one File Server, including subservers
 
 #### POST
 
 - `smapi.AddIntegratedFileServer(server)`
 Configure integrated File Server using the management address
+
 - `smapi.AddOtherFileServer(server)`
 Create generic File Server. Instead of Management, you have to specify at least one of Nfs or Smb to connect directly to data interface.
  
@@ -65,27 +66,42 @@ Modify generic File Server.
 
 #### GET
 
-- `smapi.SubServers()`
-- `smapi.SubServer(subserverID)`
+- `smapi.Subservers()`
+Get all Subservers Servers
+
+- `smapi.Subserver(subserverID)`
+Get details of one Subserver
+
 - `smapi.SubserverParent(subserverID)`
+Get parent Server of the Subserver
+
 - `smapi.SubserverProxies(subServerID)`
+Get Proxies assigned to Subserver
+
 
 #### POST
 
 - `smapi.SubserverAddProxies(subserverID, proxies)`
+Assign Proxies to a Subserver
 
 #### PATCH
 
 - `smapi.EditSubserverConnection(subserverID, connection)`
+Modify Subserver SMB/NFS connection
+
 - `smapi.EditDataAccess(subServerID, access)`
+Modify Subserver data access via Shares/Exports
+
 - `smapi.SubserverSetProxies(subserverID, proxies)`
+Modify Proxies assigned to a Subserver
+
 
 // TODO: add struct and function for path overrides
 
 #### DELETE
 
 - `smapi.SubserverRemoveProxies(subserverID, proxies)`
-
+Unassign Proxies from a Subserver
 
 
 ### proxies.go (v0.3)
