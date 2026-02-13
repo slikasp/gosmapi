@@ -13,10 +13,12 @@ import (
 func (c *Client) FileServers(ctx context.Context) ([]FileServer, error) {
 	var output MultiFileServerOutput
 
-	elems := []string{"servers"}
-	params := map[string]string{}
-	path := buildRequestPath(elems, params)
-	err := c.makeRequest(ctx, "GET", path, nil, &output)
+	err := c.makeRequest(
+		ctx, GetRequest,
+		ServersEndpoint,
+		nil,
+		nil,
+		nil, &output)
 	if err != nil {
 		return []FileServer{}, fmt.Errorf("Request failed: %w", err)
 	}
@@ -27,10 +29,12 @@ func (c *Client) FileServers(ctx context.Context) ([]FileServer, error) {
 func (c *Client) FileServer(ctx context.Context, serverID string) (FileServer, error) {
 	var output SingleFileServerOutput
 
-	elems := []string{"servers", serverID}
-	params := map[string]string{"include": "subServers"}
-	path := buildRequestPath(elems, params)
-	err := c.makeRequest(ctx, "GET", path, nil, &output)
+	err := c.makeRequest(
+		ctx, GetRequest,
+		ServersEndpoint,
+		[]string{serverID},
+		map[string]string{"include": "subServers"},
+		nil, &output)
 	if err != nil {
 		return FileServer{}, fmt.Errorf("Request failed: %w", err)
 	}
@@ -48,14 +52,14 @@ func addFileServer[T AddFileServerAttributes](
 ) (FileServer, error) {
 	var input addFileServerInput[T]
 	input.Data.Attributes = attributes
-
 	var output SingleFileServerOutput
 
-	elems := []string{"servers"}
-	params := map[string]string{"include": "subServers"}
-	path := buildRequestPath(elems, params)
-
-	err := c.makeRequest(ctx, "POST", path, input, &output)
+	err := c.makeRequest(
+		ctx, PostRequest,
+		ServersEndpoint,
+		nil,
+		map[string]string{"include": "subServers"},
+		input, &output)
 	if err != nil {
 		return FileServer{}, fmt.Errorf("Request failed: %w", err)
 	}
@@ -81,20 +85,19 @@ func (c *Client) AddIntegratedFileServer(
 func editFileServer[T EditFileServerAttributes](
 	c *Client,
 	ctx context.Context,
-	attributes T,
 	serverID string,
+	attributes T,
 ) (FileServer, error) {
-
 	var input editFileServerInput[T]
 	input.Data.Attributes = attributes
-
 	var output SingleFileServerOutput
 
-	//request
-	elems := []string{"servers", serverID}
-	params := map[string]string{}
-	path := buildRequestPath(elems, params)
-	err := c.makeRequest(ctx, "PATCH", path, input, &output)
+	err := c.makeRequest(
+		ctx, PatchRequest,
+		ServersEndpoint,
+		[]string{serverID},
+		nil,
+		input, &output)
 	if err != nil {
 		return FileServer{}, fmt.Errorf("Request failed: %w", err)
 	}
@@ -104,18 +107,18 @@ func editFileServer[T EditFileServerAttributes](
 
 func (c *Client) EditOtherFileServer(
 	ctx context.Context,
-	attributes EditOtherFileServerAttributes,
 	serverID string,
+	attributes EditOtherFileServerAttributes,
 ) (FileServer, error) {
-	return editFileServer(c, ctx, attributes, serverID)
+	return editFileServer(c, ctx, serverID, attributes)
 }
 
 func (c *Client) EditIntegratedFileServer(
 	ctx context.Context,
-	attributes EditIntegratedFileServerAttributes,
 	serverID string,
+	attributes EditIntegratedFileServerAttributes,
 ) (FileServer, error) {
-	return editFileServer(c, ctx, attributes, serverID)
+	return editFileServer(c, ctx, serverID, attributes)
 }
 
 // DELETE

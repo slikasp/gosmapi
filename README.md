@@ -1,6 +1,6 @@
 # GoSMapi
 
-Current version: 0.2.0
+Current version: 0.3.0
 
 A Datadobi StorageMAP API wrapper written in Go. This project is mainly for myself to use in other projects/apps that interact with StorageMAP and a way to learn Go while writing it.
 
@@ -31,28 +31,28 @@ API for job management was introduced in version 5.13.0 of StorageMAP (DobiMigra
 
 This creates a client with all relevant connection details, you can create multiple clients if you have multiple core servers or multiple API users (authorisation is not yet available, only use admin user)
 
-### api/servers functions (v0.1.0)
+### api/servers functions (v0.1)
 
 #### GET
 
-- `Client.FileServers()`
+- `smapi.FileServers()`
 Get details of one File Server, including subservers
-- `Client.FileServer(serverID)`
+- `smapi.FileServer(serverID)`
 Get all File Servers
 
 #### POST
 
-- `Client.AddIntegratedFileServer(server)`
+- `smapi.AddIntegratedFileServer(server)`
 Configure integrated File Server using the management address
-- `Client.AddOtherFileServer(server)`
+- `smapi.AddOtherFileServer(server)`
 Create generic File Server. Instead of Management, you have to specify at least one of Nfs or Smb to connect directly to data interface.
  
  #### PATCH
 
-- `Client.EditIntegratedFileServer(changes)`
+- `smapi.EditIntegratedFileServer(serverID, changes)`
 Modify integrated File Server.
 
-- `Client.EditOtherFileServer(changes)`
+- `smapi.EditOtherFileServer(serverID, changes)`
 Modify generic File Server.
 
 #### DELETE
@@ -65,35 +65,49 @@ Modify generic File Server.
 
 #### GET
 
-- `Client.SubServers()`
-- `Client.SubServer(subServerID)`
-- `Client.SubServerParent(subServerID)`
-- `Client.SubServerAssignedProxies(subServerID)`
+- `smapi.SubServers()`
+- `smapi.SubServer(subserverID)`
+- `smapi.SubserverParent(subserverID)`
+- `smapi.SubserverProxies(subServerID)`
 
 #### POST
 
-- No API support (subservers are auto-discovered)
+- `smapi.SubserverAddProxies(subserverID, proxies)`
 
 #### PATCH
 
-- `Client.EditSubServerAccess(access, subServerID)`
-- `Client.EditDataAccess(access, subServerID)`
-- `Client.AssignProxies(proxies, subServerID)`
+- `smapi.EditSubserverConnection(subserverID, connection)`
+- `smapi.EditDataAccess(subServerID, access)`
+- `smapi.SubserverSetProxies(subserverID, proxies)`
 
 // TODO: add struct and function for path overrides
 
 #### DELETE
 
-- No API support
+- `smapi.SubserverRemoveProxies(subserverID, proxies)`
 
 
 
-### proxies.go (not yet available in current version) (v0.3)
+### proxies.go (v0.3)
 
 #### GET
+
+- `smapi.Proxies()`
+- `smapi.Proxy(proxyID)`
+- `smapi.ProxySubservers(proxyID)`
+
 #### POST
+
+- `smapi.ProxyAddSubservers(proxyID, subservers)`
+
 #### PATCH
+
+- `smapi.ProxySetSubservers(proxyID, subservers)`
+
 #### DELETE
+
+- `smapi.ProxyRemoveSubservers(proxyID, subservers)`
+
 
 ### jobs.go (not yet available in current version) (v0.4)
 
@@ -102,7 +116,7 @@ Modify generic File Server.
 #### PATCH
 #### DELETE
 
-### createjobstatuses.go (not yet available in current version) (v0.5)
+### createjobstatuses.go (not yet available in current version) (v0.4)
 
 #### GET
 #### POST
@@ -163,6 +177,7 @@ Is this at all needed?
 
 ## External packages used
 
-None? Feels like I did something wrong
+Testing:
+github.com/joho/godotenv
 
 Shoutout to Matt Holt for his wornderful tool (https://mholt.github.io/json-to-go/) that helped dealing with the JSON soup.

@@ -25,9 +25,9 @@ const (
 type ShareMode string
 
 const (
-	ShareAutomatic ShareMode = "AUTOMATIC"
-	ShareManual    ShareMode = "MANUAL"
-	ShareNone      ShareMode = "NONE"
+	AutomaticShare ShareMode = "AUTOMATIC"
+	ManualShare    ShareMode = "MANUAL"
+	NoneShare      ShareMode = "NONE"
 )
 
 // My own for better readability
@@ -41,18 +41,73 @@ const (
 	DeleteRequest RequestType = "DELETE"
 )
 
+type Endpoint string
+
+const (
+	ServersEndpoint           Endpoint = "servers"
+	SubserversEndpoint        Endpoint = "subservers"
+	ProxiesEndpoint           Endpoint = "proxies"
+	JobsEndpoint              Endpoint = "jobs"
+	CreatejobstatusesEndpoint Endpoint = "createjobstatuses"
+)
+
 type ObjectType string
 
 const (
-	ServerObject    ObjectType = "servers"
-	SubserverObject ObjectType = "subservers"
-	ProxyObject     ObjectType = "proxies"
+	ServersObject           ObjectType = "servers"
+	SubserversObject        ObjectType = "subservers"
+	ProxiesObject           ObjectType = "proxies"
+	JobsObject              ObjectType = "jobs"
+	CreatejobstatusesObject ObjectType = "createjobstatuses"
+)
+
+type AssignElement string
+
+const (
+	AssignedProxiesElement    AssignElement = "assignedProxies"
+	AssignedSubserversElement AssignElement = "assignedSubServers"
 )
 
 type DiscoveryStrategy string
 
 const (
-	StrategyDefault DiscoveryStrategy = "DEFAULT"
-	StrategyManual  DiscoveryStrategy = "MANUAL"
-	StrategyCron    DiscoveryStrategy = "CRON"
+	DefaultStrategy DiscoveryStrategy = "DEFAULT"
+	ManualStrategy  DiscoveryStrategy = "MANUAL"
+	CronStrategy    DiscoveryStrategy = "CRON"
+)
+
+type JobProtocol string
+
+const (
+	NfsProtocol JobProtocol = "NFS"
+	SmbProtocol JobProtocol = "SMB"
+	// all other options?
+	// object?
+)
+
+type NfsConstraints string
+
+const (
+	NfsV3 NfsConstraints = "V3"
+	NfsV4 NfsConstraints = "V4"
+)
+
+type JobType string
+
+const (
+	NasMigrationJob JobType = "NAS_MIGRATION"
+)
+
+type JobStatus string
+
+const (
+	QueuedStatus JobStatus = "QUEUED"
+	FailedStatus JobStatus = "FAILED"
+	// other?
+)
+
+type JobPhase string
+
+const (
+	FirstScanPhase JobPhase = "FIRST_SCAN"
 )

@@ -11,10 +11,10 @@ type Proxy struct {
 	} `json:"attributes"`
 }
 
-type ProxyOutput struct {
+type singleProxyOutput struct {
 	Data Proxy `json:"data"`
 }
 
-type ProxiesOutput struct {
+type multipleProxyOutput struct {
 	Data []Proxy `json:"data"`
 }

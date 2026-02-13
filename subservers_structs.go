@@ -20,8 +20,8 @@ type Subserver struct {
 	ID         string `json:"id"`
 	Type       string `json:"type"`
 	Attributes struct {
-		Name             string           `json:"name"`
-		ConnectionConfig ConnectionConfig `json:"dataConnectionConfig"`
+		Name             string         `json:"name"`
+		ConnectionConfig DataConnection `json:"dataConnectionConfig"`
 		PathOverrides    struct {
 			SMB struct {
 			} `json:"smb"`
@@ -66,7 +66,7 @@ type DataAccessExportInput struct {
 type editSubserverConnectionInput struct {
 	Data struct {
 		Attributes struct {
-			ConnectionConfig ConnectionConfig `json:"dataConnectionConfig"`
+			ConnectionConfig DataConnection `json:"dataConnectionConfig"`
 		} `json:"attributes"`
 	} `json:"data"`
 }
@@ -83,23 +83,4 @@ type editSubserverDataAccessInput struct {
 			DataAccess EditSubserverDataAccess `json:"dataAccess"`
 		} `json:"attributes"`
 	} `json:"data"`
-}
-
-// RELATIONSHIPS
-// ASSIGNED PROXIES
-
-// ID: <TYPE>:<name>, e.g. "UNIVERSAL:builtin"
-//
-// Type is always "proxies"
-type AssignedProxy struct {
-	ID   string     `json:"id"`
-	Type ObjectType `json:"type"`
-}
-
-type AssignedProxiesInput struct {
-	Data []AssignedProxy `json:"data"`
-}
-
-type AssignedProxiesOutput struct {
-	Data []AssignedProxy `json:"data"`
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func TestNewClient(t *testing.T) {
-	godotenv.Load(".env")
+	godotenv.Load("../.test_env")
 	address := os.Getenv("CORE_ADDRESS")
 	token := os.Getenv("ADMIN_TOKEN")
 

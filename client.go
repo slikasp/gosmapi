@@ -27,7 +27,19 @@ func NewClient(address, token string) *Client {
 	return &Client{BaseURL: apiURL, Token: token, HTTPClient: httpClient}
 }
 
-func (c *Client) makeRequest(ctx context.Context, method, path string, in interface{}, out interface{}) error {
+func (c *Client) makeRequest(
+	ctx context.Context,
+	method RequestType,
+	endpoint Endpoint,
+	elements []string,
+	parameters map[string]string,
+	in interface{},
+	out interface{},
+) error {
+	// build the path out of provided variables
+	path := buildRequestPath(endpoint, elements, parameters)
+
+	// make new reader
 	var body io.Reader
 	if in != nil {
 		b, err := json.Marshal(in)
@@ -37,7 +49,8 @@ func (c *Client) makeRequest(ctx context.Context, method, path string, in interf
 		body = bytes.NewReader(b)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, method, c.BaseURL+path, body)
+	// create the request variable and set headers
+	req, err := http.NewRequestWithContext(ctx, string(method), c.BaseURL+path, body)
 	if err != nil {
 		return err
 	}
@@ -50,6 +63,7 @@ func (c *Client) makeRequest(ctx context.Context, method, path string, in interf
 	// test, _ := httputil.DumpRequest(req, true)
 	// fmt.Print(string(test))
 
+	// make the request
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return err
@@ -61,12 +75,23 @@ func (c *Client) makeRequest(ctx context.Context, method, path string, in interf
 	// debugging output
 	// fmt.Print(string(data))
 
+	// Handle error responses
 	if res.StatusCode < 200 || res.StatusCode >= 300 {
-		return fmt.Errorf("api error: %d: %s", res.StatusCode, string(data))
+		return fmt.Errorf("API error: %d: %s", res.StatusCode, string(data))
 	}
 
-	if out != nil {
-		return json.Unmarshal(data, out)
+	// Handle 204 response with no body
+	if res.StatusCode == http.StatusNoContent {
+		return nil
 	}
+
+	// Try unmarshaling the body
+	if out != nil {
+		err = json.Unmarshal(data, out)
+		if err != nil {
+			return fmt.Errorf("JSON unmarshal failed: %v", err)
+		}
+	}
+
 	return nil
 }

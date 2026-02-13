@@ -47,11 +47,11 @@ type FileServer struct {
 	ID         string `json:"id"`
 	Type       string `json:"type"`
 	Attributes struct {
-		Name             string           `json:"name"`
-		ServerType       string           `json:"serverType"`
-		ActualServerType string           `json:"actualServerType"`
-		ConnectionConfig ConnectionConfig `json:"discoveryConnectionConfig"`
-		Scheduling       Scheduling       `json:"discoveryScheduling"`
+		Name             string     `json:"name"`
+		ServerType       string     `json:"serverType"`
+		ActualServerType string     `json:"actualServerType"`
+		ConnectionConfig Connection `json:"discoveryConnectionConfig"`
+		Scheduling       Scheduling `json:"discoveryScheduling"`
 		Throttling       struct {
 			TimeZoneID    string `json:"timeZoneId"`
 			BusinessHours struct {
@@ -92,19 +92,19 @@ type MultiFileServerOutput struct {
 //
 // - One or both of SMB/NFS ConnectionConfig is required.
 type AddOtherFileServerAttributes struct {
-	ServerType       FileServerType   `json:"serverType"`
-	ActualServerType FileServerType   `json:"actualServerType"`
-	Name             string           `json:"name"`
-	ConnectionConfig ConnectionConfig `json:"discoveryConnectionConfig"`
+	ServerType       FileServerType `json:"serverType"`
+	ActualServerType FileServerType `json:"actualServerType"`
+	Name             string         `json:"name"`
+	ConnectionConfig DataConnection `json:"discoveryConnectionConfig"`
 }
 
 // Minimal inputs to create an Integrated file server.
 //
 // - Management ConnectionConfig is required.
 type AddIntegratedFileServerAttributes struct {
-	ServerType       FileServerType   `json:"serverType"`
-	Name             string           `json:"name"`
-	ConnectionConfig ConnectionConfig `json:"discoveryConnectionConfig"`
+	ServerType       FileServerType       `json:"serverType"`
+	Name             string               `json:"name"`
+	ConnectionConfig ManagementConnection `json:"discoveryConnectionConfig"`
 }
 
 type AddFileServerAttributes interface {
@@ -125,9 +125,9 @@ type addFileServerInput[T AddFileServerAttributes] struct {
 //
 // All other fields are optional
 type EditOtherFileServerAttributes struct {
-	Name             string           `json:"name"`
-	ConnectionConfig ConnectionConfig `json:"discoveryConnectionConfig"`
-	Scheduling       *Scheduling      `json:"discoveryScheduling"`
+	Name             string         `json:"name"`
+	ConnectionConfig DataConnection `json:"discoveryConnectionConfig"`
+	Scheduling       *Scheduling    `json:"discoveryScheduling"`
 	Throttling       struct {
 		TimeZoneID    *string `json:"timeZoneId"`
 		BusinessHours struct {
@@ -143,9 +143,9 @@ type EditOtherFileServerAttributes struct {
 //
 // All fields are optional
 type EditIntegratedFileServerAttributes struct {
-	Name             string           `json:"name"`
-	ConnectionConfig ConnectionConfig `json:"discoveryConnectionConfig"`
-	Scheduling       *Scheduling      `json:"discoveryScheduling"`
+	Name             string               `json:"name"`
+	ConnectionConfig ManagementConnection `json:"discoveryConnectionConfig"`
+	Scheduling       *Scheduling          `json:"discoveryScheduling"`
 	Throttling       struct {
 		TimeZoneID    *string `json:"timeZoneId"`
 		BusinessHours struct {

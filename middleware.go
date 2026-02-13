@@ -7,10 +7,14 @@ import (
 
 // ["servers"], ["include"]:"subServers" -> /servers?include=subServers
 // ["servers", "ID"] -> /servers/ID
-func buildRequestPath(elems []string, params map[string]string) string {
+func buildRequestPath(endpoint Endpoint, elems []string, params map[string]string) string {
 	var s strings.Builder
 
+	// is 100 enough?
 	s.Grow(100)
+
+	s.WriteByte('/')
+	s.WriteString(url.PathEscape(string(endpoint)))
 
 	for _, v := range elems {
 		s.WriteByte('/')

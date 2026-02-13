@@ -1,0 +1,35 @@
+# Test server
+CORE_ADDRESS="10.10.113.2"
+ADMIN_TOKEN="HwzxaXClMvRaJlsLXOreqYcnCD6RIa"
+
+# Sandbox domain user
+SMB_USER_NAME="pauls@SBOX.DATADOBI.NET"
+SMB_USER_PASS="menulis"
+
+# temp other server
+SERVER_OTHER_ADDRESS="10.10.120.64"
+
+# temp Isilon server
+SERVER_POWERSCALE_ADDRESS="10.10.120.64"
+SUBSERVER_POWERSCALE_ADDRESS="10.10.120.64"
+SERVER_POWERSCALE_USER="root"
+SERVER_POWERSCALE_PASS="a"
+
+# perm Other server
+SERVER_OTHER_ID="dd05df10-cd3c-4d59-9f46-86bd604a09ee"
+SUBSERVER_OTHER_ID="dd05df10-cd3c-4d59-9f46-86bd604a09ee::S"
+
+# perm Isilon server
+SERVER_POWERSCALE_ID="37cbc535-d842-413f-ae88-cd21a1babbc0"
+SUBSERVER_POWERSCALE_ID="37cbc535-d842-413f-ae88-cd21a1babbc0:System:I"
+
+# perm NetApp server
+SERVER_NETAPP_ID="a97572f5-6754-4cd5-ac12-a2806b0d4b98"
+SUBSERVER_NETAPP_ID="a97572f5-6754-4cd5-ac12-a2806b0d4b98:vfiler0:I"
+
+# perm proxies
+UNIVERSAL_PROXY="UNIVERSAL:builtin"
+NFS_PROXY="NFS:NFS_Proxy"
+
+# perm jobs
+NFS_JOB_ID="nm~7e4d4040-b8a2-4abf-afad-0c545cecc42c"

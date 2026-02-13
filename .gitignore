@@ -5,8 +5,6 @@ feedback.txt
 examples/
 
 #remove these when working on them, should go in order
-proxies.go
-jobs.go
 createjobstatuses.go
 switchovergroups.go
 principalmaps.go

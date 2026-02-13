@@ -10,19 +10,41 @@ package gosmapi
 // 	Data []Object `json:"data"`
 // }
 
-// Management: Integrated server API connection
-//
-// SMB / NFS: Other NAS or Subserver data connection
-//
-// No Username or Password for NFS
-type ConnectionConfig struct {
+// Used for output only
+type Connection struct {
 	Management *FileConnection `json:"managementCredentials"`
 	SMB        *FileConnection `json:"smb"`
 	NFS        *FileConnection `json:"nfs"`
 }
 
+type ManagementConnection struct {
+	Management FileConnection `json:"managementCredentials"`
+}
+
+// Either SMB or NFS or both are required
+type DataConnection struct {
+	SMB *FileConnection `json:"smb"`
+	NFS *FileConnection `json:"nfs"`
+}
+
+// No Username or Password for NFS
 type FileConnection struct {
 	Addresses []string `json:"hostAddresses"`
-	Username  *string  `json:"username"`
-	Password  *string  `json:"password"`
+	Username  *string  `json:"username,omitempty"`
+	Password  *string  `json:"password,omitempty"`
+}
+
+// RELATIONSHIPS
+
+type Assigned struct {
+	ID   string     `json:"id"`
+	Type ObjectType `json:"type"`
+}
+
+type AssignedInput struct {
+	Data []Assigned `json:"data"`
+}
+
+type AssignedOutput struct {
+	Data []Assigned `json:"data"`
 }
