@@ -67,7 +67,7 @@ Modify generic File Server.
 #### GET
 
 - `smapi.Subservers()`
-Get all Subservers Servers
+Get all Subservers
 
 - `smapi.Subserver(subserverID)`
 Get details of one Subserver
@@ -109,20 +109,28 @@ Unassign Proxies from a Subserver
 #### GET
 
 - `smapi.Proxies()`
+Get all Proxies
+
 - `smapi.Proxy(proxyID)`
+Get details of one Proxy
+
 - `smapi.ProxySubservers(proxyID)`
+Get all Subservers assigned to a Proxy
 
 #### POST
 
 - `smapi.ProxyAddSubservers(proxyID, subservers)`
+Assign Proxy to Subservers
 
 #### PATCH
 
 - `smapi.ProxySetSubservers(proxyID, subservers)`
+Modify Subservers where Proxy is assigned
 
 #### DELETE
 
 - `smapi.ProxyRemoveSubservers(proxyID, subservers)`
+Unassign Proxy from Subservers
 
 
 ### jobs.go (not yet available in current version) (v0.4)
