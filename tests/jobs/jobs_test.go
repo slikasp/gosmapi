@@ -27,7 +27,7 @@ func TestJob(t *testing.T) {
 	godotenv.Load("../.test_env")
 	client := gosmapi.NewClient(os.Getenv("CORE_ADDRESS"), os.Getenv("ADMIN_TOKEN"))
 
-	jobID := os.Getenv("NFS_JOB_ID")
+	jobID := os.Getenv("MULTI_JOB_ID")
 
 	job, err := client.Job(context.Background(), jobID)
 	if err != nil {
@@ -49,14 +49,14 @@ func TestCreateJobFail(t *testing.T) {
 	nfsVersion := gosmapi.NfsV3
 	options := gosmapi.JobOptions{
 		Configuration: &gosmapi.JobConfiguration{
-			Protocol:       gosmapi.NfsProtocol,
+			Protocol:       gosmapi.NFS,
 			NfsConstraints: &nfsVersion,
 		},
 	}
 	attributes := gosmapi.CreateJobAttributes{
 		JobType:         string(gosmapi.NasMigrationJob),
-		SourcePath:      "/ifs/home/api/postman/source",
-		DestinationPath: "/ifs/home/api/postman/destination",
+		SourcePath:      "/ifs/home/api/postman/source/s1",
+		DestinationPath: "/ifs/home/api/postman/destination/d1",
 		Options:         options,
 	}
 
@@ -65,7 +65,7 @@ func TestCreateJobFail(t *testing.T) {
 		t.Fatalf("CreateJob failed: %v", err)
 	}
 
-	if createjobstatus.Attributes.Status != "FAILED" {
+	if createjobstatus.Attributes.Status != gosmapi.Failed {
 		t.Errorf("Unexpected job status %s", createjobstatus.Attributes.Status)
 	}
 }
@@ -80,14 +80,14 @@ func TestCreateJobSuccess(t *testing.T) {
 	nfsVersion := gosmapi.NfsV3
 	options := gosmapi.JobOptions{
 		Configuration: &gosmapi.JobConfiguration{
-			Protocol:       gosmapi.NfsProtocol,
+			Protocol:       gosmapi.NFS,
 			NfsConstraints: &nfsVersion,
 		},
 	}
 	attributes := gosmapi.CreateJobAttributes{
 		JobType:         string(gosmapi.NasMigrationJob),
-		SourcePath:      "/ifs/home/api/postman/s2",
-		DestinationPath: "/ifs/home/api/postman/d2",
+		SourcePath:      "/ifs/home/api/postman/source/s2",
+		DestinationPath: "/ifs/home/api/postman/destination/d2",
 		Options:         options,
 	}
 
@@ -96,7 +96,43 @@ func TestCreateJobSuccess(t *testing.T) {
 		t.Fatalf("CreateJob failed: %v", err)
 	}
 
+	if createjobstatus.Attributes.Status != gosmapi.Queued {
+		t.Errorf("Unexpected job status %s. ID: %s", createjobstatus.Attributes.Status, createjobstatus.ID)
+	}
+}
+
+func TestEditJob(t *testing.T) {
+	godotenv.Load("../.test_env")
+	client := gosmapi.NewClient(os.Getenv("CORE_ADDRESS"), os.Getenv("ADMIN_TOKEN"))
+
+	source := os.Getenv("SUBSERVER_POWERSCALE_ID")
+	destination := os.Getenv("SUBSERVER_OTHER_ID")
+
+	// Create job
+	nfsVersion := gosmapi.NfsV3
+	options := gosmapi.JobOptions{
+		Configuration: &gosmapi.JobConfiguration{
+			Protocol:       gosmapi.Multiprotocol,
+			NfsConstraints: &nfsVersion,
+		},
+	}
+	attributes := gosmapi.CreateJobAttributes{
+		JobType:         string(gosmapi.NasMigrationJob),
+		SourcePath:      "/ifs/home/api/postman/source/s3",
+		DestinationPath: "/ifs/home/api/postman/destination/d3",
+		Options:         options,
+	}
+
+	createjobstatus, err := client.CreateJob(context.Background(), source, destination, attributes)
+	if err != nil {
+		t.Fatalf("CreateJob failed: %v", err)
+	}
 	if createjobstatus.Attributes.Status != "QUEUED" {
 		t.Errorf("Unexpected job status %s. ID: %s", createjobstatus.Attributes.Status, createjobstatus.ID)
 	}
+
+	jobID := createjobstatus.ID
+
+	// Edit job
+
 }
