@@ -6,7 +6,7 @@ type Createjobstatus struct {
 	ID         string     `json:"id"`
 	Type       ObjectType `json:"type"`
 	Attributes struct {
-		Status JobStatus `json:"status"`
+		Status any `json:"status"`
 		Errors struct {
 		} `json:"errors"`
 	} `json:"attributes"`
@@ -14,4 +14,8 @@ type Createjobstatus struct {
 
 type singleCreatejobstatusOutput struct {
 	Data Createjobstatus `json:"data"`
+}
+
+type multiCreatejobstatusOutput struct {
+	Data []Createjobstatus `json:"data"`
 }

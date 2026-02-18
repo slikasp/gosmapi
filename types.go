@@ -93,7 +93,7 @@ const (
 type JobType string
 
 const (
-	NasMigrationJob JobType = "NAS_MIGRATION"
+	NasMigration JobType = "NAS_MIGRATION"
 )
 
 type JobStatus string
@@ -110,56 +110,64 @@ const (
 	FirstScan JobPhase = "FIRST_SCAN"
 )
 
+// Job General Options
+
+// Default | MD5 | SHA1 | SHA256 | SHA512 | XXH128
 type DigestAlgorithm string
 
 const (
-	Default DigestAlgorithm = "DEFAULT"
-	MD5     DigestAlgorithm = "MD5"
-	SHA1    DigestAlgorithm = "SHA1"
-	SHA256  DigestAlgorithm = "SHA256"
-	SHA512  DigestAlgorithm = "SHA512"
-	XXH128  DigestAlgorithm = "XXH128"
+	DefaultAlgo DigestAlgorithm = "DEFAULT"
+	MD5Algo     DigestAlgorithm = "MD5"
+	SHA1Algo    DigestAlgorithm = "SHA1"
+	SHA256Algo  DigestAlgorithm = "SHA256"
+	SHA512Algo  DigestAlgorithm = "SHA512"
+	XXH128Algo  DigestAlgorithm = "XXH128"
 )
+
+func (s DigestAlgorithm) String() string { return string(s) }
 
 type MinimumAge string
 
 const (
 	DefaultAge    MinimumAge = "DEFAULT"
 	NoneAge       MinimumAge = "ZERO_SECONDS"
-	SecFifteenAge MinimumAge = "FIFTEEN_SECONDS"
-	SecThirtyAge  MinimumAge = "THIRTY_SECONDS"
-	MinOneAge     MinimumAge = "ONE_MINUTE"
-	MinFiveAge    MinimumAge = "FIVE_MINUTES"
-	MinTenAge     MinimumAge = "TEN_MINUTES"
-	MinThirtyAge  MinimumAge = "THIRTY_MINUTES"
-	HourOneAge    MinimumAge = "ONE_HOUR"
-	HourTwoAge    MinimumAge = "TWO_HOURS"
-	HourThreeAge  MinimumAge = "THREE_HOURS"
-	HourSixAge    MinimumAge = "SIX_HOURS"
-	HourNineAge   MinimumAge = "NINE_HOURS"
-	HourTwelveAge MinimumAge = "TWELVE_HOURS"
-	DayOneAge     MinimumAge = "ONE_DAY"
-	DayTwoAge     MinimumAge = "TWO_DAYS"
-	DayThreeAge   MinimumAge = "THREE_DAYS"
-	WeekOneAge    MinimumAge = "ONE_WEEK"
+	FifteenSecAge MinimumAge = "FIFTEEN_SECONDS"
+	ThirtySecAge  MinimumAge = "THIRTY_SECONDS"
+	OneMinAge     MinimumAge = "ONE_MINUTE"
+	FiveMinAge    MinimumAge = "FIVE_MINUTES"
+	TenMinAge     MinimumAge = "TEN_MINUTES"
+	ThirtyMinAge  MinimumAge = "THIRTY_MINUTES"
+	OneHourAge    MinimumAge = "ONE_HOUR"
+	TwoHourAge    MinimumAge = "TWO_HOURS"
+	ThreeHourAge  MinimumAge = "THREE_HOURS"
+	SixHourAge    MinimumAge = "SIX_HOURS"
+	NineHourAge   MinimumAge = "NINE_HOURS"
+	TwelveHourAge MinimumAge = "TWELVE_HOURS"
+	OneDayAge     MinimumAge = "ONE_DAY"
+	TwoDayAge     MinimumAge = "TWO_DAYS"
+	ThreeDayAge   MinimumAge = "THREE_DAYS"
+	OneWeekAge    MinimumAge = "ONE_WEEK"
 )
 
+// Full | None | MigratedOnly
 type CocMode string
 
 const (
-	Full         CocMode = "FULL"
-	None         CocMode = "NONE"
-	MigratedOnly CocMode = "MIGRATED_ONLY"
+	FullCoc         CocMode = "FULL"
+	NoneCoc         CocMode = "NONE"
+	MigratedOnlyCoc CocMode = "MIGRATED_ONLY"
 )
 
+// Normal | CreateOverNfs | NfsOnly
 type SmbSymlinkTargetMode string
 
 const (
-	Normal        SmbSymlinkTargetMode = "NORMAL"
-	CreateOverNfs SmbSymlinkTargetMode = "CREATE_OVER_NFS"
-	NfsOnly       SmbSymlinkTargetMode = "NFS_ONLY"
+	NormalSymlink        SmbSymlinkTargetMode = "NORMAL"
+	CreateOverNfsSymlink SmbSymlinkTargetMode = "CREATE_OVER_NFS"
+	NfsOnlySymlink       SmbSymlinkTargetMode = "NFS_ONLY"
 )
 
+// CopySecurity | DontCopySecurity | ConvertToExplicit | ConsolidateRoot | ConsolidateSubfolder
 type CopyRootDirMode string
 
 const (
@@ -170,6 +178,7 @@ const (
 	ConsolidateSubfolder CopyRootDirMode = "CONSOLIDATE_AT_SUB_FOLDER_LEVEL"
 )
 
+// NoRestrictions | NoDeletes | NoUpdates
 type OperationRestrictions string
 
 const (
@@ -178,6 +187,7 @@ const (
 	NoUpdates      OperationRestrictions = "NO_DELETES_OR_UPDATES"
 )
 
+// ReportAll | CopyFilesReportDirs | CopyAll
 type MupScanErrorMode string
 
 const (
@@ -186,10 +196,19 @@ const (
 	CopyAll             MupScanErrorMode = "CONTINUE_ON_NFS_ONLY_FOR_FILES_AND_DIRS"
 )
 
+// Enabled | Disabled | Strict
 type AipMode string
 
 const (
-	Enabled  AipMode = "ENABLED"
-	Disabled AipMode = "DISABLED"
-	Strict   AipMode = "STRICT"
+	EnabledAip  AipMode = "ENABLED"
+	DisabledAip AipMode = "DISABLED"
+	StrictAip   AipMode = "STRICT"
 )
+
+// Job NFS Options
+
+// does not work at the moment
+
+// Job SMB Options
+
+// does not work at the moment

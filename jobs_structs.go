@@ -1,36 +1,36 @@
 package gosmapi
 
 type JobsNfsOptions struct {
-	CopyNamedAttributesMode any `json:"copyNamedAttributesMode"`
-	CopyACL                 any `json:"copyAcl"`
-	CopyOwner               any `json:"copyOwner"`
-	CopyGroup               any `json:"copyGroup"`
-	CopyPermissions         any `json:"copyPermissions"`
-	CopySymlinksPermissions any `json:"copySymlinksPermissions"`
-	CopySocketMode          any `json:"copySocketFilesMode"`
-	CopyPipeMode            any `json:"copyPipeFilesMode"`
-	CopyCharDeviceMode      any `json:"copyCharacterDeviceFilesMode"`
-	CopyBlockDeviceMode     any `json:"copyBlockDeviceFileMode"`
-	CopyPermissionModifier  any `json:"copyPermissionModifier"`
+	CopyNamedAttributesMode *any `json:"copyNamedAttributesMode"`
+	CopyACL                 *any `json:"copyAcl"`
+	CopyOwner               *any `json:"copyOwner"`
+	CopyGroup               *any `json:"copyGroup"`
+	CopyPermissions         *any `json:"copyPermissions"`
+	CopySymlinksPermissions *any `json:"copySymlinksPermissions"`
+	CopySocketMode          *any `json:"copySocketFilesMode"`
+	CopyPipeMode            *any `json:"copyPipeFilesMode"`
+	CopyCharDeviceMode      *any `json:"copyCharacterDeviceFilesMode"`
+	CopyBlockDeviceMode     *any `json:"copyBlockDeviceFileMode"`
+	CopyPermissionModifier  *any `json:"copyPermissionModifier"`
 }
 
 type JobsSmbOptions struct {
-	DesiredOwner                   any `json:"desiredOwner"`
-	DesiredGroup                   any `json:"desiredGroup"`
-	CopySacl                       any `json:"copySacl"`
-	CleanInvalidSid                any `json:"cleanInvalidSecurityDescriptors"`
-	CopyUserAttributesMode         any `json:"copyUserDefinedAttributesMode"`
-	ReplaceCreatorOwnerGroup       any `json:"replaceCreatorOwnerGroup"`
-	CopyOwner                      any `json:"copyOwner"`
-	CopyGroup                      any `json:"copyGroup"`
-	CopyDacl                       any `json:"copyDacl"`
-	CopyHiddenAttribute            any `json:"copyHiddenAttribute"`
-	CopyNotContentIndexedAttribute any `json:"copyNotContentIndexedAttribute"`
-	CopyReadOnlyAttribute          any `json:"copyReadOnlyAttribute"`
-	CopySystemAttribute            any `json:"copySystemAttribute"`
-	CopyTemporaryAttribute         any `json:"copyTemporaryAttribute"`
-	CopyOfflineAttribute           any `json:"copyOfflineAttribute"`
-	CopyArchiveAttribute           any `json:"copyArchiveAttribute"`
+	DesiredOwner                   *any `json:"desiredOwner"`
+	DesiredGroup                   *any `json:"desiredGroup"`
+	CopySacl                       *any `json:"copySacl"`
+	CleanInvalidSid                *any `json:"cleanInvalidSecurityDescriptors"`
+	CopyUserAttributesMode         *any `json:"copyUserDefinedAttributesMode"`
+	ReplaceCreatorOwnerGroup       *any `json:"replaceCreatorOwnerGroup"`
+	CopyOwner                      *any `json:"copyOwner"`
+	CopyGroup                      *any `json:"copyGroup"`
+	CopyDacl                       *any `json:"copyDacl"`
+	CopyHiddenAttribute            *any `json:"copyHiddenAttribute"`
+	CopyNotContentIndexedAttribute *any `json:"copyNotContentIndexedAttribute"`
+	CopyReadOnlyAttribute          *any `json:"copyReadOnlyAttribute"`
+	CopySystemAttribute            *any `json:"copySystemAttribute"`
+	CopyTemporaryAttribute         *any `json:"copyTemporaryAttribute"`
+	CopyOfflineAttribute           *any `json:"copyOfflineAttribute"`
+	CopyArchiveAttribute           *any `json:"copyArchiveAttribute"`
 }
 
 // TODO: define actual type, similar to discovery

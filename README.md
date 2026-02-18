@@ -28,71 +28,86 @@ API for job management was introduced in version 5.13.0 of StorageMAP (DobiMigra
 ### Create a new client
 
 `smapi := Client.New("<core_address>", "<admin_token>")`
+
 This creates a client with all relevant connection details, you can create multiple clients if you have multiple core servers or multiple API users (authorisation is not yet available, only use admin user)
 
-### api/servers functions (v0.1)
+### servers
 
 #### GET
 
 - `smapi.FileServers()`
+
 Get all File Servers
 
 - `smapi.FileServer(serverID)`
+
 Get details of one File Server, including subservers
 
 #### POST
 
 - `smapi.AddIntegratedFileServer(server)`
+
 Configure integrated File Server using the management address
 
 - `smapi.AddOtherFileServer(server)`
+
 Create generic File Server. Instead of Management, you have to specify at least one of Nfs or Smb to connect directly to data interface.
  
  #### PATCH
 
 - `smapi.EditIntegratedFileServer(serverID, changes)`
+
 Modify integrated File Server.
 
 - `smapi.EditOtherFileServer(serverID, changes)`
+
 Modify generic File Server.
 
 #### DELETE
 
-- No API support
+(not available yet)
 
 
 
-### subservers.go (v0.2)
+### subservers
 
 #### GET
 
 - `smapi.Subservers()`
+
 Get all Subservers
 
 - `smapi.Subserver(subserverID)`
+
 Get details of one Subserver
 
 - `smapi.SubserverParent(subserverID)`
+
 Get parent Server of the Subserver
 
 - `smapi.SubserverProxies(subServerID)`
+
 Get Proxies assigned to Subserver
 
 
 #### POST
 
 - `smapi.SubserverAddProxies(subserverID, proxies)`
+
 Assign Proxies to a Subserver
 
 #### PATCH
 
 - `smapi.EditSubserverConnection(subserverID, connection)`
+
 Modify Subserver SMB/NFS connection
 
 - `smapi.EditDataAccess(subServerID, access)`
+
 Modify Subserver data access via Shares/Exports
 
 - `smapi.SubserverSetProxies(subserverID, proxies)`
+
 Modify Proxies assigned to a Subserver
 
 
@@ -101,60 +116,95 @@ Modify Proxies assigned to a Subserver
 #### DELETE
 
 - `smapi.SubserverRemoveProxies(subserverID, proxies)`
+
 Unassign Proxies from a Subserver
 
 
-### proxies.go (v0.3)
+### proxies
 
 #### GET
 
 - `smapi.Proxies()`
+
 Get all Proxies
 
 - `smapi.Proxy(proxyID)`
+
 Get details of one Proxy
 
 - `smapi.ProxySubservers(proxyID)`
+
 Get all Subservers assigned to a Proxy
 
 #### POST
 
 - `smapi.ProxyAddSubservers(proxyID, subservers)`
+
 Assign Proxy to Subservers
 
 #### PATCH
 
 - `smapi.ProxySetSubservers(proxyID, subservers)`
+
 Modify Subservers where Proxy is assigned
 
 #### DELETE
 
 - `smapi.ProxyRemoveSubservers(proxyID, subservers)`
+
 Unassign Proxy from Subservers
 
 
-### jobs.go (not yet available in current version) (v0.4)
+### jobs
+
+#### GET
+
+- `smapi.Jobs()`
+
+Get all jobs
+
+- `smapi.Job(jobID)`
+
+Get details of one job
+
+#### POST
+
+- `smapi.CreateJob(sourceSubserverID, destinationSubserverID, attributes)`
+
+Create a new job
+
+#### PATCH
+
+(editing of jobs is not added yet so you need to create it with options provided in attributes)
+
+#### DELETE
+
+(not available yet)
+
+### createjobstatuses
+
+#### GET
+
+- `smapi.Createjobstatuses()`
+
+Get all createjobstatuses
+
+- `smapi.Createjobstatus(createjobstatusID)`
+
+Get details of one createjobstatus (returns job struct if successful)
+
+#### POST
+#### PATCH
+#### DELETE
+
+### switchovergroups.go (not yet available in current goSMapi version)
 
 #### GET
 #### POST
 #### PATCH
 #### DELETE
 
-### createjobstatuses.go (not yet available in current version) (v0.4)
-
-#### GET
-#### POST
-#### PATCH
-#### DELETE
-
-### switchovergroups.go (not yet available in current version) TBC
-
-#### GET
-#### POST
-#### PATCH
-#### DELETE
-
-### principalmaps.go (not yet available in current version) TBC
+### principalmaps.go (not yet available in current goSMapi version)
 
 #### GET
 #### POST
@@ -168,36 +218,7 @@ Unassign Proxy from Subservers
 
 ## Built-in types
 
-Is this at all needed?
-
-### FileServerType
-
-- AmazonEfs
-- AmazonFsxn
-- AzureFiles
-- HpeAlletra
-- HitachiHdi
-- Hnas
-- Netapp
-- Netapp7m
-- NetappCdot
-- OtherNas
-- PowerScale
-- PowerStore
-- Unity
-- Vnx
-
-### ShareMode
-
-- ShareAutomatic
-- ShareManual
-- ShareNone
-
-### DiscoveryStrategy
-
-- StrategyDefault
-- StrategyManual
-- StrategyCron
+Is this needed in README? Can be found in types.go file
 
 ## External packages used
 

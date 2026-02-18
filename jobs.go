@@ -73,29 +73,29 @@ func (c *Client) CreateJob(
 // using /api/createjobstatuses returns createjobstatus JSON if it fails, job JSON if it works, why?
 // can verify by checking type
 
-// PATCH
+// PATCH (not yet implemented)
 
-func (c *Client) EditJob(
-	ctx context.Context,
-	jobID string,
-	options JobOptions,
-) (Job, error) {
-	var input editJob
-	input.Data.Attributes.Options = options
-	var output singleJobOutput
+// func (c *Client) EditJob(
+// 	ctx context.Context,
+// 	jobID string,
+// 	options JobOptions,
+// ) (Job, error) {
+// 	var input editJob
+// 	input.Data.Attributes.Options = options
+// 	var output singleJobOutput
 
-	err := c.makeRequest(
-		ctx,
-		PatchRequest,
-		JobsEndpoint,
-		nil,
-		nil,
-		input, &output)
-	if err != nil {
-		return Job{}, fmt.Errorf("Request failed: %w", err)
-	}
+// 	err := c.makeRequest(
+// 		ctx,
+// 		PatchRequest,
+// 		JobsEndpoint,
+// 		nil,
+// 		nil,
+// 		input, &output)
+// 	if err != nil {
+// 		return Job{}, fmt.Errorf("Request failed: %w", err)
+// 	}
 
-	return output.Data, err
-}
+// 	return output.Data, err
+// }
 
 // DELETE

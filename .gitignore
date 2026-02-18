@@ -5,6 +5,5 @@ feedback.txt
 examples/
 
 #remove these when working on them, should go in order
-createjobstatuses.go
 switchovergroups.go
 principalmaps.go
