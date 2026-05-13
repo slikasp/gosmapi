@@ -10,13 +10,13 @@ Wrapper Functionality is dependent on API capabilities, currently there is no su
 ## Installation
 
 ```bash
-go get github.com/pauslik/gosmapi
+go get github.com/slikasp/gosmapi
 ```
 
 Then import in your Go code:
 
 ```go
-import "github.com/pauslik/gosmapi"
+import "github.com/slikasp/gosmapi"
 ```
 
 ## Using GoSMapi
